@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>tmux那些事 | 扬眉剑出鞘</title><meta name="author" content="yasir"><meta name="copyright" content="yasir"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="学习tmux的一些知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tmux那些事">
+<meta property="og:url" content="http://example.com/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/index.html">
+<meta property="og:site_name" content="扬眉剑出鞘">
+<meta property="og:description" content="学习tmux的一些知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/tmux.png">
+<meta property="article:published_time" content="2024-01-12T08:39:02.000Z">
+<meta property="article:modified_time" content="2024-01-15T08:50:44.081Z">
+<meta property="article:author" content="yasir">
+<meta property="article:tag" content="tmux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/tmux.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'tmux那些事',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-15 16:50:44'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/002-tree.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/picure/"><i class="fa-fw fas fa-heart"></i><span> 图库</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/tmux.png')"><nav id="nav"><span id="blog-info"><a href="/" title="扬眉剑出鞘"><img class="site-icon" src="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/docker.svg"/></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/picure/"><i class="fa-fw fas fa-heart"></i><span> 图库</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">tmux那些事<a class="post-edit-link" href="null_posts/tmux那些事.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-12T08:39:02.000Z" title="发表于 2024-01-12 16:39:02">2024-01-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-15T08:50:44.081Z" title="更新于 2024-01-15 16:50:44">2024-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/tmux%E7%9A%84%E4%BD%BF%E7%94%A8/">tmux的使用</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="tmux那些事"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h1><mark class="hl-label green">tmux</mark> tmux是把多个虚拟窗口看成一个物理窗口(terminal multiplexer)，通过tmux的命令来操作这些窗口集合，方便切换且不会打乱你原来的工作环境
+
+<p>brew install tmux</p>
+<p>tmux 是一个终端复用器，这也是它命名的由来 t(terminal) mux(multiplexer)，你可以在一个屏幕上管理多个终端！</p>
+<p>在 mac 上得益于 iterm2 (opens new window)，你管理多个终端窗口相当方便。但是在 linux 上，iterm2 就鞭长莫及了，tmux 的优势就显出来了。</p>
+<p>tmux的使用说明</p>
+<p><a target="_blank" rel="noopener" href="https://www.freeaihub.com/article/tmux.html">https://www.freeaihub.com/article/tmux.html</a></p>
+<p><img src="/../../typora%E6%96%87%E4%BB%B6/img/image-20230414172242778.png" alt="image-20230414172242778"></p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">术语</span><br><span class="line">server 包含多个 session</span><br><span class="line">session 包含多个 window</span><br><span class="line">window 类似于 iterm2 的 Tab，包含多个 pane，以下中文会翻译为窗口</span><br><span class="line">pane 类似于 iterm2 的 Pane，以下中文会翻译为面板</span><br><span class="line">常见命令</span><br><span class="line">bind-key (bind) ：绑定快捷键，按 prefix 键与快捷键触发。</span><br><span class="line">set-option (set) : 设置选项</span><br><span class="line">source-file (source) : 生效当前配置文件</span><br><span class="line">new-window : 新建窗口，默认快捷键 prefix c</span><br><span class="line">split-window : 分屏</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>连接当前的会话</p>
+<p>tmux attach -t [session-name]- 连接到名为session-name的会话</p>
+<p> 删除会话:tmux kill-session -t &lt;编号&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">2. 创建新的session窗口</span><br><span class="line">tmux new -s new_session</span><br><span class="line">这里的s意为session-name</span><br><span class="line">在new_session中创建新的窗口</span><br><span class="line">第一步：按Ctrl+B 组合键，然后松开。</span><br><span class="line">第二步：再单独按一下c键</span><br><span class="line"></span><br><span class="line">3. 在窗口间切换</span><br><span class="line">假如我们要切换到 0：bash 这个窗口，步骤如下：</span><br><span class="line">第一步：按 Ctrl-B 组合键，然后松开。</span><br><span class="line">第二步：按数字 0 键。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\4. detach窗口，断开当前会话</span><br><span class="line">第一步：输入组合键 Ctrl+B，然后松开。</span><br><span class="line">第二步：输入字母d。</span><br><span class="line">d即为detach之意</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\5. 恢复窗口</span><br><span class="line">查看所有窗口：tmux ls</span><br><span class="line">Doc/typora文件  tmux ls</span><br><span class="line">new_session: 4 windows (created Wed Aug 10 10:50:21 2022)</span><br><span class="line">ls意为list-session</span><br><span class="line">恢复指定窗口：tmux a -t new_session</span><br><span class="line">这里-t的意思是target-session</span><br><span class="line"></span><br><span class="line">\6. 切换窗口</span><br><span class="line">在tmux session内切换到另一个tmux session：tmux switch -t xxx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">窗口的拆分</span><br><span class="line">tmux split-window：在当前窗格中水平分割。或者，拆分为上下两个pane：先按下Ctrl+b的组合键，再按下&quot;</span><br><span class="line">tmux split-window -v：在当前窗格中垂直分割。或者拆分为左右两个pane：先按下Ctrl+b的组合键，再按下%</span><br><span class="line">tmux select-pane -L/R/U/D：选择当前窗格的左/右/上/下。</span><br><span class="line">tmux resize-pane -L/R/U/D &lt;size&gt;：调整当前窗格的大小。</span><br><span class="line">tmux list-panes：列出所有窗格。</span><br><span class="line">tmux new-window：在当前会话中创建新窗口。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">删除一个pane(转到选择的pane使用kill-pane命令删除)</span><br><span class="line">tmux kill-pane</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\2. 在session中切换pane</span><br><span class="line">2.1 切换到左侧的pane：先按下Ctrl+b的组合键，再按下←</span><br><span class="line">2.2 切换到右侧的pane：先按下Ctrl+b的组合键，再按下→</span><br><span class="line">2.3 切换到下方的pane：先按下Ctrl+b的组合键，再按下↓</span><br><span class="line">2.4 切换到上方的pane：先按下Ctrl+b的组合键，再按下↑</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\7. kill掉窗口</span><br><span class="line">kill一个tmux进程：tmux kill-session -t dev（kill名为dev的session）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/!%5B%5D(https:/cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/image-20230414172307252.png)" alt="image-20230414172307252"></p>
+<p>————-—————这是一个分割线————-————-</p>
+<h3 id="会话-session-命令"><a href="#会话-session-命令" class="headerlink" title="会话(session)命令"></a>会话(session)命令</h3><p>s是常有的命令</p>
+<p>$ 重命名</p>
+<table>
+<thead>
+<tr>
+<th><strong>前缀</strong></th>
+<th><strong>指令</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ctrl+b</td>
+<td>?</td>
+<td>显示快捷键帮助文档</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>d</td>
+<td>断开当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>D</td>
+<td>选择要断开的会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl+z</td>
+<td>挂起当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>r</td>
+<td>强制重载当前会话</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>s</td>
+<td>切换窗口，左右方向键可以展开收缩,常用</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>:</td>
+<td>进入命令行模式，此时可直接输入ls等命令</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>[</td>
+<td>进入复制模式，按q退出</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>]</td>
+<td>粘贴复制模式中复制的文本</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>~</td>
+<td>列出提示信息缓存</td>
+</tr>
+</tbody></table>
+<h3 id="窗口（window）指令"><a href="#窗口（window）指令" class="headerlink" title="窗口（window）指令"></a>窗口（window）指令</h3><p>，是重命名</p>
+<table>
+<thead>
+<tr>
+<th><strong>前缀</strong></th>
+<th><strong>指令</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ctrl+b</td>
+<td>c</td>
+<td>新建窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>&amp;</td>
+<td>关闭当前窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>0~9</td>
+<td>切换到指定窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>p</td>
+<td>切换到上一窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>n</td>
+<td>切换到下一窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>w</td>
+<td>打开窗口列表，用于且切换窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>,</td>
+<td>重命名当前窗口</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>.</td>
+<td>修改当前窗口编号（适用于窗口重新排序）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>f</td>
+<td>快速定位到窗口（输入关键字匹配窗口名称）</td>
+</tr>
+</tbody></table>
+<h3 id="面板（pane）指令"><a href="#面板（pane）指令" class="headerlink" title="面板（pane）指令"></a>面板（pane）指令</h3><table>
+<thead>
+<tr>
+<th><strong>前缀</strong></th>
+<th><strong>指令</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ctrl+b</td>
+<td>“</td>
+<td>当前面板上下一分为二，下侧新建面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>%</td>
+<td>当前面板左右一分为二，右侧新建面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>x</td>
+<td>关闭当前面板（关闭前需输入y or n确认）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>z</td>
+<td>最大化当前面板，再重复一次按键后恢复正常（v1.8版本新增）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>!</td>
+<td>将当前面板移动到新的窗口打开（原窗口中存在两个及以上面板有效）</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>;</td>
+<td>切换到最后一次使用的面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>q</td>
+<td>显示面板编号，在编号消失前输入对应的数字可切换到相应的面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>{</td>
+<td>向前置换当前面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>}</td>
+<td>向后置换当前面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl+o</td>
+<td>顺时针旋转当前窗口中的所有面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>方向键</td>
+<td>移动光标切换面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>o</td>
+<td>选择下一面板</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>空格键</td>
+<td>在自带的面板布局中循环切换</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Alt+方向键</td>
+<td>以5个单元格为单位调整当前面板边缘</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>Ctrl+方向键</td>
+<td>以1个单元格为单位调整当前面板边缘</td>
+</tr>
+<tr>
+<td>Ctrl+b</td>
+<td>t</td>
+<td>显示时钟</td>
+</tr>
+</tbody></table>
+<h4 id="显示序号"><a href="#显示序号" class="headerlink" title="显示序号"></a>显示序号</h4><p><img src="/../../typora%E6%96%87%E4%BB%B6/img/image-20230414175247276.png" alt="image-20230414175247276"></p>
+<h4 id="显示时钟"><a href="#显示时钟" class="headerlink" title="显示时钟"></a>显示时钟</h4><p>ctrl+b t</p>
+<p><img src="/../../typora%E6%96%87%E4%BB%B6/img/image-20230414174951565.png" alt="image-20230414174951565"></p>
+<h2 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h2><p>ctrl b : 进入命令行模式</p>
+<p>要退出tmux的命令行模式，请按下 <code>Ctrl + b</code>，然后再按下 <code>Esc</code> 键。这将使您退出命令行模式并返回到普通的tmux窗口模式。</p>
+<p>您还可以按下 <code>Ctrl + c</code> 或 <code>q</code> 来取消当前命令并返回到窗口模式。</p>
+<blockquote>
+<p>使用ess或者 ctrl+c或者q凯返回到窗口模式</p>
+</blockquote>
+<p>请注意，当您在tmux中使用命令时，会进入命令行模式。在这种模式下，您可以输入并执行tmux命令。要退出命令行模式并返回到窗口模式，您需要使用 <code>Esc</code>、<code>Ctrl + c</code> 或 <code>q</code> 等命令取消当前命令。如果您忘记了要执行的命令或不想执行任何命令，可以按下 <code>Esc</code> 或 <code>Ctrl + c</code> 来取消当前命令并返回到窗口模式</p>
+<h2 id="酷炫功能"><a href="#酷炫功能" class="headerlink" title="酷炫功能"></a>酷炫功能</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">面板同步[已测试]：</span><br><span class="line">使用 Ctrl + b + : 进入命令模式，然后输入 setw synchronize-panes on 命令可以使所有面板同时输入相同的内容，</span><br><span class="line">非常适合同时在多个服务器上执行相同的操作。</span><br><span class="line">setw synchronize-panes off可以关闭这个功能</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">插件支持：tmux有一个强大的插件生态系统，您可以使用插件来增强其功能。</span><br><span class="line">例如，tmux-resurrect插件可以将您的tmux会话保存在磁盘上，以便在下次启动时自动还原会话。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以下是一些tmux的酷炫功能：</span><br><span class="line">窗口和窗格布局：tmux允许您在同一个终端窗口中同时运行多个会话，您可以通过分割窗格或在不同的窗口之间切换来组织这些会话。</span><br><span class="line"></span><br><span class="line">会话管理：tmux支持多个会话，您可以使用 tmux new-session 命令创建新会话，使用 tmux switch -t &lt;session-name&gt; 命令切换到不同的会话，并使用 tmux list-sessions 命令查看所有会话。</span><br><span class="line"></span><br><span class="line">复制和粘贴：tmux允许您在不同的窗格之间复制和粘贴文本。您可以使用 Ctrl + b + [ 进入复制模式，然后使用箭头键选择要复制的文本，最后使用 Enter 键将其复制到剪贴板。然后，在另一个窗格中使用 Ctrl + b + ] 粘贴该文本。</span><br><span class="line"></span><br><span class="line">面板缩放：使用 Ctrl + b + Z 可以将当前活动窗格最大化或最小化</span><br><span class="line"></span><br><span class="line">状态栏自定义：</span><br><span class="line">使用 set-option -g status-right 命令可以自定义tmux状态栏，</span><br><span class="line">例如，您可以在状态栏中显示日期和时间、主机名、当前目录等等。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">快捷键自定义：</span><br><span class="line">tmux允许您自定义快捷键，您可以根据自己的需要创建自己的快捷键。例如，您可以使用 unbind-key 命令解除默认的 Ctrl + b 绑定，然后将其替换为您自己喜欢的键。</span><br><span class="line">总之，tmux是一个非常强大和灵活的终端多路复用器，具有许多高级功能和自定义选项，可以让您更有效地</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="自定义配置"><a href="#自定义配置" class="headerlink" title="自定义配置"></a>自定义配置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">自定义状态栏的背景和前景色</span><br><span class="line">默认的背景色为 绿色，前景色为 黑色，笔者分别调整为 黑色 和 黄色</span><br><span class="line">set -g status-bg black</span><br><span class="line">set -g status-fg yellow</span><br><span class="line"></span><br><span class="line">自定义状态栏的信息显示</span><br><span class="line">默认在状态栏右侧显示 主机名 + 时间 + 日期</span><br><span class="line">因为笔者一般使用 oh-my-zsh，已经配置显示了 主机名 + 时间 + 日期，所以改为只保留 时间（对比见上图）</span><br><span class="line">set-option -g status-right &quot;#(date +%H:%M&#x27; &#x27;)&quot;</span><br><span class="line">set-option -g status-right-length 10</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">自定义窗口下标起始</span><br><span class="line">Tmux 可以新建很多窗口，默认窗口标号为 0，然后才是 1 2 3 ...（窗格也是）</span><br><span class="line">虽然很符合程序思维，但是跟键盘上那一排数字键的顺序不吻合，所以改成 1 开始，然后才是 2 3 4 ...</span><br><span class="line">set-option -g base-index 1</span><br><span class="line">set-window-option -g pane-base-index 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">自定义快捷键：分割窗格</span><br><span class="line">默认情况下：</span><br><span class="line">水平分割：ctrl-b + &quot;（引号键）</span><br><span class="line">垂直分割：ctrl-b + %（百分号键）</span><br><span class="line">改成 - 和 |，更符合行为逻辑</span><br><span class="line"></span><br><span class="line">unbind &#x27;&quot;&#x27;</span><br><span class="line">bind - splitw -v</span><br><span class="line">unbind %</span><br><span class="line">bind | splitw -h </span><br><span class="line"></span><br><span class="line">bind-key - split-window -c &quot;#&#123;pane_current_path&#125;&quot;</span><br><span class="line">bind-key | split-window -h -c &quot;#&#123;pane_current_path&#125;&quot;</span><br><span class="line">最后两行表示，通过 - 和 | 分割出的新窗格，shell 的初始路径为当前路径</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="调整pane的大小"><a href="#调整pane的大小" class="headerlink" title="调整pane的大小"></a>调整pane的大小</h3><table>
+<thead>
+<tr>
+<th>Ctrl+方向键</th>
+<th>以1个单元格为单位移动边缘以调整当前窗格大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Alt+方向键</td>
+<td>以5个单元格为单位移动边缘以调整当前窗格大小</td>
+</tr>
+</tbody></table>
+<p>在tmux中,可以通过以下几种方式调整pane的大小:</p>
+<ol>
+<li>使用鼠标拖动pane边界<br>当tmux启动鼠标支持(使用-m或ctrl+b [)后,可以直接用鼠标拖动pane边界来调整pane大小,这是最简单的调整方式。</li>
+<li>使用resize-pane命令<br>使用resize-pane命令可以精确调整pane大小,命令格式为:<br>例如,调整当前pane向右5个单元格:<br>resize-pane -R 5</li>
+</ol>
+<h2 id="配置恢复"><a href="#配置恢复" class="headerlink" title="配置恢复"></a>配置恢复</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">配置安装参考：https://zhuanlan.zhihu.com/p/533349040</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">由于使用了 tmux-continuum，tmux-resurrect 的备份和恢复都是自动的（在指定时间间隔备份、在重启后进行恢复）。当然，你也可以直接调用 tmux-resurrect 来进行手动的备份与恢复，从而实现更灵活的操作：</span><br><span class="line">手动备份tmux：Ctrl+b然后按Ctrl+s</span><br><span class="line">手动恢复tmux：Ctrl+b然后按Ctrl+r</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">yasir</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/">http://example.com/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">扬眉剑出鞘</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/tmux/">tmux</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/tmux.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/01/hello-world/" title="Hello World"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/002-tree.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">yasir</div><div class="author-info__description">夕光暮色前，薄雾群山间 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/zhouyaxiong" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:411235298@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">洗一个澡，看一朵花，吃一顿饭</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux"><span class="toc-number">1.</span> <span class="toc-text">tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.0.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.0.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D-session-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.0.3.</span> <span class="toc-text">会话(session)命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%EF%BC%88window%EF%BC%89%E6%8C%87%E4%BB%A4"><span class="toc-number">1.0.4.</span> <span class="toc-text">窗口（window）指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E6%9D%BF%EF%BC%88pane%EF%BC%89%E6%8C%87%E4%BB%A4"><span class="toc-number">1.0.5.</span> <span class="toc-text">面板（pane）指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%BA%8F%E5%8F%B7"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">显示序号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E6%97%B6%E9%92%9F"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">显示时钟</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">命令行模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%B7%E7%82%AB%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.</span> <span class="toc-text">酷炫功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">自定义配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4pane%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">调整pane的大小</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%81%A2%E5%A4%8D"><span class="toc-number">1.4.</span> <span class="toc-text">配置恢复</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="tmux那些事"><img src="https://cdn.jsdelivr.net/gh/zhouyaxiong/yasir_picture/img/tmux.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tmux那些事"/></a><div class="content"><a class="title" href="/2024/01/12/tmux%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="tmux那些事">tmux那些事</a><time datetime="2024-01-12T08:39:02.000Z" title="发表于 2024-01-12 16:39:02">2024-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/hello-world/" title="Hello World"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2022/01/01/hello-world/" title="Hello World">Hello World</a><time datetime="2021-12-31T16:00:00.000Z" title="发表于 2022-01-01 00:00:00">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By yasir</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, yasir，welcome !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
