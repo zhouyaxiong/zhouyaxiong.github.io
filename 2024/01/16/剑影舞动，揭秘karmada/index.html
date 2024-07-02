@@ -389,7 +389,7 @@ Member1-3使用的是kindnet网络插件
   const init = () => {
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
-      envId: 'https:://vercel.zyasir.site/',
+      envId: 'https://vercel.zyasir.site/',
       region: '',
       onCommentLoaded: () => {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
@@ -406,7 +406,7 @@ Member1-3使用的是kindnet网络插件
     const countELement = document.getElementById('twikoo-count')
     if(!countELement) return
     twikoo.getCommentsCount({
-      envId: 'https:://vercel.zyasir.site/',
+      envId: 'https://vercel.zyasir.site/',
       region: '',
       urls: [window.location.pathname],
       includeReply: false
